@@ -1,0 +1,44 @@
+modLoader="javafml"
+
+loaderVersion="[39,)"
+
+license="LGPL-3.0 License"
+
+issueTrackerURL="https://github.com/Janoeo/Template/issues" # Change this to your tracker
+
+[[mods]]
+
+modId="janoeo_template"
+
+version="${file.jarVersion}"
+
+displayName="Janoeo Template"
+
+# A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/1.18.x/gettingstarted/autoupdate/
+# updateJSONURL="https://raw.githubusercontent.com/AlasDiablo/Janoeo-Doc/gh-pages/version/template.json"
+
+displayURL="https://github.com/Janoeo/Template"
+
+# logoFile="examplemod.png" #optional
+
+credits="Thanks for this example mod goes to Java"
+
+authors="Love, Cheese and small house plants"
+
+description='''
+Hello, World!
+'''
+
+[[dependencies.janoeo_template]]
+    modId="forge"
+    mandatory=true
+    versionRange="[39,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.janoeo_template]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.1,1.19)"
+    ordering="NONE"
+    side="BOTH"
