@@ -44,7 +44,7 @@ if (isJanoeo) {
 group = 'fr.alasdiablo.janoeo.template'
 archivesBaseName = 'Janoeo Template'
 
-manifestAttributes = [
+def manifestAttributes = [
         "Specification-Title"     : "Janoeo Template",
         "Specification-Vendor"    : "AlasDiablo, Safyrus",
         "Specification-Version"   : "1",
@@ -54,7 +54,7 @@ manifestAttributes = [
         "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 ]
 
-outputFolder = file(rootProject.getRootDir().getPath() + '/output')
+def outputFolder = file(rootProject.getRootDir().getPath() + '/output')
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
