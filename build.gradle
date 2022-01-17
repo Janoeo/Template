@@ -1,15 +1,28 @@
+/*
+ * Change `janoeo_template` by your mod id
+ * Change `group` value to you project `group` value
+ * Change `archivesBaseName` value to you project `archivesBaseName` value
+ * You can remove `Janoeo versioning system` section if you don't use janoeo versioning
+ */
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'org.spongepowered.mixin'
 
 // ***************************************** //
 //                                           //
@@ -61,14 +74,17 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 def deobfSourceClassifier
 
 minecraft {
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
     deobfSourceClassifier = getMappings().get()
+    // Uncomment to use access transformer
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            // Uncomment if you use mixin
+            // arg '-mixin.config=janoeo_template.mixins.json'
             mods {
                 janoeo_template {
                     source sourceSets.main
@@ -80,6 +96,8 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            // Uncomment if you use mixin
+            // arg '-mixin.config=janoeo_template.mixins.json'
             mods {
                 janoeo_template {
                     source sourceSets.main
@@ -91,6 +109,8 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            // Uncomment if you use mixin
+            // args '-mixin.config=diolib.mixins.json', '--mod', 'janoeo_template', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             args '--mod', 'janoeo_template', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
                 janoeo_template {
@@ -101,13 +121,26 @@ minecraft {
     }
 }
 
+mixin {
+    // Uncomment if you use mixin
+    // add sourceSets.main, 'janoeo_template.mixins.refmap.json'
+}
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    maven {
+        url 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.5'
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.40'
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 }
 
 jar {
@@ -119,9 +152,6 @@ jar.finalizedBy('reobfJar')
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
-    from(sourceSets.main.output) {
-        include file(rootProject.getRootDir().getPath() + 'LICENSE')
-    }
     def archiveName = 'sources-' + deobfSourceClassifier
     archiveClassifier.set(archiveName)
     destinationDirectory.set(outputFolder)
@@ -140,4 +170,3 @@ artifacts {
     archives sourcesJar
     archives deobfJar
 }
-
