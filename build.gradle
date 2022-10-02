@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.7.32'
     }
 }
 
@@ -74,7 +74,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 def deobfSourceClassifier
 
 minecraft {
-    mappings channel: 'parchment', version: '2021.12.19-1.18.1'
+    mappings channel: 'parchment', version: '2022.09.04-1.19.2'
     deobfSourceClassifier = getMappings().get()
     // Uncomment to use access transformer
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -110,7 +110,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             // Uncomment if you use mixin
-            // args '-mixin.config=diolib.mixins.json', '--mod', 'janoeo_template', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            // args '-mixin.config=janoeo_template.mixins.json', '--mod', 'janoeo_template', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             args '--mod', 'janoeo_template', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
                 janoeo_template {
@@ -138,9 +138,9 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.40'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.1.32'
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 jar {
@@ -163,6 +163,10 @@ task deobfJar(type: Jar) {
     archiveClassifier.set(archiveName)
     manifest.attributes(manifestAttributes)
     destinationDirectory.set(outputFolder)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 artifacts {
